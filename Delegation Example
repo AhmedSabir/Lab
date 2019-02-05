@@ -1,0 +1,71 @@
+
+
+//
+//  ViewController.swift
+//  TestingLab
+//
+//  Created by Ahmed Sabir on 18/05/1440 AH.
+//  Copyright © 1440 Ahmed Sabir. All rights reserved.
+//
+protocol UserAccess
+{
+    func getInfo(user:Model)->Model
+}
+class Model
+{
+    var name:String?
+    var profession: String?
+}
+import UIKit
+
+
+class FirstViewController: UIViewController,UserAccess
+{
+   @objc func openSecondVC()
+    {
+        let secondVC = SecondVC()
+        secondVC.delegate = self
+        self.present(secondVC, animated: true, completion:nil)
+    }
+    
+    var publicUser = Model()
+    func getInfo(user:Model)-> Model
+    {
+        publicUser = user
+        publicUser.name = "Ahmed"
+        return  publicUser
+    }
+    
+    let btnTest: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Done", for: .normal)
+        btn.backgroundColor = UIColor.white
+        btn.layer.borderWidth = 0.9
+        btn.setTitleColor(UIColor.black, for: .normal)
+        btn.layer.borderColor = (UIColor.gray).cgColor
+        btn.addTarget(self, action: #selector(openSecondVC), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+}
+
+
+
+class SecondVC: UIViewController {
+    var delegate: UserAccess?
+    @objc func didDelegate()
+    {
+        self.dismiss(animated: true, completion: nil)
+    }
+    let btnTest: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("Done", for: .normal)
+        btn.backgroundColor = UIColor.white
+        btn.layer.borderWidth = 0.9
+        btn.setTitleColor(UIColor.black, for: .normal)
+        btn.layer.borderColor = (UIColor.gray).cgColor
+        btn.addTarget(self, action: #selector(didDelegate), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
+}
